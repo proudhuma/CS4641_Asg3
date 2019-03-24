@@ -29,7 +29,7 @@ def loadData(filename):
 	return eData
 
 def training(adult_data, wine_data):
-	K = range(1, 20)
+	K = range(1, 11)
 	GMM_a = [GaussianMixture(n_components=k).fit(adult_data) for k in K]
 	GMM_w = [GaussianMixture(n_components=k).fit(wine_data) for k in K]
 
@@ -54,20 +54,20 @@ adult_y = adult_data['result']
 wine = datasets.load_wine()
 wine_x = wine.data
 
-K = range(1, 20)
+K = range(1, 11)
 
 pca = PCA()
 ica = FastICA()
 wine_rp = GaussianRandomProjection(n_components=8)
 adult_rp = GaussianRandomProjection(n_components=10)
-fs = VarianceThreshold(threshold=0.1)
+fs = VarianceThreshold(threshold=0.05)
 
-adult_x_pca = fs.fit_transform(adult_x)
+adult_x_pca = pca.fit_transform(adult_x)
 adult_x_ica = ica.fit_transform(adult_x)
 adult_x_rp = adult_rp.fit_transform(adult_x)
 adult_x_fs = fs.fit_transform(adult_x)
 
-wine_x_pca = fs.fit_transform(wine_x)
+wine_x_pca = pca.fit_transform(wine_x)
 wine_x_ica = ica.fit_transform(wine_x)
 wine_x_rp = wine_rp.fit_transform(wine_x)
 wine_x_fs = fs.fit_transform(wine_x)
